@@ -55,6 +55,8 @@ import java.util.stream.Collectors;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.EvictingQueue;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * Holds the current set of pending transactions with the ability to iterate them based on priority
@@ -63,6 +65,8 @@ import com.google.common.collect.EvictingQueue;
  * <p>This class is safe for use across multiple threads.
  */
 public class PendingTransactions {
+
+  private static final Logger LOG = LogManager.getLogger();
 
   private final int maxTransactionRetentionHours;
   private final Clock clock;
@@ -204,6 +208,7 @@ public class PendingTransactions {
   }
 
   public void selectTransactions(final TransactionSelector selector) {
+    LOG.debug("XXX: selectTransactions +++");
     synchronized (prioritizedTransactions) {
       final List<Transaction> transactionsToRemove = new ArrayList<>();
       final Map<Address, AccountTransactionOrder> accountTransactions = new HashMap<>();
@@ -232,6 +237,7 @@ public class PendingTransactions {
       }
       transactionsToRemove.forEach(this::removeTransaction);
     }
+    LOG.debug("XXX: selectTransactions ---");
   }
 
   private AccountTransactionOrder createSenderTransactionOrder(final Address address) {

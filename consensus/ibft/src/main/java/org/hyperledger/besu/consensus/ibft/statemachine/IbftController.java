@@ -139,7 +139,7 @@ public class IbftController {
     final BlockHeader newBlockHeader = newChainHead.getNewChainHeadHeader();
     final BlockHeader currentMiningParent = currentHeightManager.getParentBlockHeader();
     LOG.debug(
-        "New chain head detected (block number={})," + " currently mining on top of {}.",
+        "XXX: New chain head detected (block number={})," + " currently mining on top of {}.",
         newBlockHeader.getNumber(),
         currentMiningParent.getNumber());
     if (newBlockHeader.getNumber() < currentMiningParent.getNumber()) {

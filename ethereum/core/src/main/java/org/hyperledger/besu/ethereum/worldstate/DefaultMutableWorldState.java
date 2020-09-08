@@ -14,6 +14,8 @@
  */
 package org.hyperledger.besu.ethereum.worldstate;
 
+import static org.apache.logging.log4j.LogManager.getLogger;
+
 import org.hyperledger.besu.ethereum.core.AbstractWorldUpdater;
 import org.hyperledger.besu.ethereum.core.Account;
 import org.hyperledger.besu.ethereum.core.AccountState;
@@ -40,11 +42,14 @@ import java.util.Optional;
 import java.util.TreeMap;
 import java.util.stream.Stream;
 
+import org.apache.logging.log4j.Logger;
 import org.apache.tuweni.bytes.Bytes;
 import org.apache.tuweni.bytes.Bytes32;
 import org.apache.tuweni.units.bigints.UInt256;
 
 public class DefaultMutableWorldState implements MutableWorldState {
+
+  private static final Logger LOG = getLogger();
 
   private final WorldStateStorage worldStateStorage;
   private final WorldStatePreimageStorage preimageStorage;
@@ -166,6 +171,7 @@ public class DefaultMutableWorldState implements MutableWorldState {
 
   @Override
   public void persist() {
+    LOG.debug("XXX: persist +++");
     final WorldStateStorage.Updater stateUpdater = worldStateStorage.updater();
     // Store updated code
     for (final Bytes code : updatedAccountCode.values()) {
@@ -191,6 +197,7 @@ public class DefaultMutableWorldState implements MutableWorldState {
     // Push changes to underlying storage
     preimageUpdater.commit();
     stateUpdater.commit();
+    LOG.debug("XXX: persist ---");
   }
 
   private Optional<UInt256> getStorageTrieKeyPreimage(final Bytes32 trieKey) {

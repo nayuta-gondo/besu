@@ -115,6 +115,7 @@ public abstract class AbstractBlockProcessor implements BlockProcessor {
       final List<Transaction> transactions,
       final List<BlockHeader> ommers) {
 
+    LOG.debug("XXX: processBlock +++");
     long gasUsed = 0;
     final List<TransactionReceipt> receipts = new ArrayList<>();
 
@@ -159,6 +160,7 @@ public abstract class AbstractBlockProcessor implements BlockProcessor {
     }
 
     worldState.persist();
+    LOG.debug("XXX: processBlock ---");
     return AbstractBlockProcessor.Result.successful(receipts);
   }
 

@@ -217,7 +217,7 @@ public class PersistBlockTask<C> extends AbstractEthTask<Block> {
       final double timeInS = getTaskTimeInSec();
       LOG.info(
           String.format(
-              "Imported #%,d / %d tx / %d om / %,d (%01.1f%%) gas / (%s) in %01.3fs. Peers: %d",
+              "XXX: Imported #%,d / %d tx / %d om / %,d (%01.1f%%) gas / (%s) in %01.3fs. Peers: %d",
               block.getHeader().getNumber(),
               block.getBody().getTransactions().size(),
               block.getBody().getOmmers().size(),

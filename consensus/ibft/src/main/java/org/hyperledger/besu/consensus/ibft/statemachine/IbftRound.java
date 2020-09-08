@@ -88,7 +88,7 @@ public class IbftRound {
   public void createAndSendProposalMessage(final long headerTimeStampSeconds) {
     final Block block = blockCreator.createBlock(headerTimeStampSeconds);
     final IbftExtraData extraData = IbftExtraData.decode(block.getHeader());
-    LOG.debug("Creating proposed block. round={}", roundState.getRoundIdentifier());
+    LOG.debug("XXX: Creating proposed block. round={}", roundState.getRoundIdentifier());
     LOG.trace(
         "Creating proposed block with extraData={} blockHeader={}", extraData, block.getHeader());
     updateStateWithProposalAndTransmit(block, Optional.empty());
@@ -133,11 +133,11 @@ public class IbftRound {
   }
 
   public void handleProposalMessage(final Proposal msg) {
-    LOG.debug("Received a proposal message. round={}", roundState.getRoundIdentifier());
+    LOG.debug("XXX: Received a proposal message. round={}", roundState.getRoundIdentifier());
     final Block block = msg.getBlock();
 
     if (updateStateWithProposedBlock(msg)) {
-      LOG.debug("Sending prepare message. round={}", roundState.getRoundIdentifier());
+      LOG.debug("XXX: Sending prepare message. round={}", roundState.getRoundIdentifier());
       try {
         final Prepare localPrepareMessage =
             messageFactory.createPrepare(getRoundIdentifier(), block.getHash());
@@ -151,12 +151,12 @@ public class IbftRound {
   }
 
   public void handlePrepareMessage(final Prepare msg) {
-    LOG.debug("Received a prepare message. round={}", roundState.getRoundIdentifier());
+    LOG.debug("XXX: Received a prepare message. round={}", roundState.getRoundIdentifier());
     peerIsPrepared(msg);
   }
 
   public void handleCommitMessage(final Commit msg) {
-    LOG.debug("Received a commit message. round={}", roundState.getRoundIdentifier());
+    LOG.debug("XXX: Received a commit message. round={}", roundState.getRoundIdentifier());
     peerIsCommitted(msg);
   }
 
@@ -182,7 +182,7 @@ public class IbftRound {
 
       // There are times handling a proposed block is enough to enter prepared.
       if (wasPrepared != roundState.isPrepared()) {
-        LOG.debug("Sending commit message. round={}", roundState.getRoundIdentifier());
+        LOG.debug("XXX: Sending commit message. round={}", roundState.getRoundIdentifier());
         transmitter.multicastCommit(getRoundIdentifier(), block.getHash(), commitSeal);
       }
 
@@ -212,7 +212,7 @@ public class IbftRound {
     final boolean wasPrepared = roundState.isPrepared();
     roundState.addPrepareMessage(msg);
     if (wasPrepared != roundState.isPrepared()) {
-      LOG.debug("Sending commit message. round={}", roundState.getRoundIdentifier());
+      LOG.debug("XXX: Sending commit message. round={}", roundState.getRoundIdentifier());
       final Block block = roundState.getProposedBlock().get();
       try {
         transmitter.multicastCommit(getRoundIdentifier(), block.getHash(), createCommitSeal(block));
@@ -240,7 +240,7 @@ public class IbftRound {
     final long blockNumber = blockToImport.getHeader().getNumber();
     final IbftExtraData extraData = IbftExtraData.decode(blockToImport.getHeader());
     LOG.info(
-        "Importing block to chain. round={}, hash={}",
+        "XXX: Importing block to chain. round={}, hash={}",
         getRoundIdentifier(),
         blockToImport.getHash());
     LOG.trace("Importing block with extraData={}", extraData);
